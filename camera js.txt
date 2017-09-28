@@ -1,0 +1,27 @@
+var imageNr = 0; // Serial number of current image
+var finished = new Array(); // References to img objects which have finished downloading
+
+function createImageLayer() {
+  var image = new Image();
+
+  image.src = "camera/" + (++imageNr);
+  image.style.position = "absolute";
+  image.style.zIndex = -1;
+  image.onload = imageOnload;
+  image.onerror = createImageLayer;
+
+  var webcam = document.getElementById("webcam");
+  webcam.insertBefore(image, webcam.firstChild);
+}
+
+function imageOnload() {
+  this.style.zIndex = imageNr;
+  while (1 < finished.length) {
+    var del = finished.shift();
+    del.parentNode.removeChild(del);
+  }
+  finished.push(this);
+  timerID = setTimeout(function(){ createImageLayer() }, document.F1.waittime.value);
+}
+
+ 

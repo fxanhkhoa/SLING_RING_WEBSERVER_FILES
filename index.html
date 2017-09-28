@@ -1,0 +1,109 @@
+<style type="text/css">
+#myProgress {
+	width: 50%;
+	background-color:grey;
+}
+#myProgress1 {
+	width: 50%;
+	background-color:grey;
+}
+#myBar{
+	width: 0%;
+	height: 30px;
+	background-color: green;
+	border-color: red;
+	text-align: center;
+}
+#intBar{
+	width: 50%;
+	height: 30px;
+	background-color: green;
+	border-color: red;
+	text-align: center;
+}
+#intBar1{
+	width: 70%;
+	height: 30px;
+	background-color: green;
+	border-color: red;
+	text-align: center;
+}
+#webcam img {
+	left: 0;
+	right: 0;
+	max-width: 640px; 
+	width: 100%;
+	height: auto; 
+}
+</style>
+
+<head>
+	<script type="text/javascript" src = "Show.js" language="javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="mbedRPC.js" language="javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="camera.js" charset="utf-8"></script>
+	<script type="text/javascript">
+	mbed = new HTTPRPC();
+	led1 = new DigitalOut(mbed, LED1);
+	led2 = new DigitalOut(mbed, LED2);
+	led3 = new DigitalOut(mbed, LED3);
+	RPCRequest = new RPCVariable(mbed, "Request");
+	</script>
+	<script type="text/javascript">
+function led1_toggle()
+{
+		alert("clicked go");
+		led1.write(1); 
+}
+
+function led2_toggle()
+{
+		alert("clicked go1");
+		led2.write(1);
+}
+
+function led3_toggle()
+{
+		alert("clicked go2");
+		led3.write(1);
+}
+
+function readInt()
+{
+	var element = document.getElementById("intBar");
+	var element1 = document.getElementById("intBar1");
+	var element2 = document.getElementById("myBar");
+	var k;
+		k = RPCRequest.read_float();
+		if ((k > 100) && (k < 200))
+		{
+			element.innerHTML = k + '%';
+		}
+		else if (k > 200)
+		{
+			element1.innerHTML = k + '%';
+		}
+		element2.innerHTML = k + '%';
+		setTimeout(readInt, 1000);
+}
+readInt();
+	</script>
+</head>
+<body onload="createImageLayer();">
+	<div id = "myProgress">
+		<div id = "intBar">50%</div>
+	</div>
+	<h3>Player 1</h3>
+	<div id = "myProgress1">
+		<div id = "intBar1">70%</div>
+	</div>
+	<h3>Player 2</h3>
+	<button onclick = "move()">Click me</button>
+	<button onclick = "led1_toggle()">led1</button>
+	<button onclick = "led2_toggle()">led2</button>
+	<button onclick = "led3_toggle()">led3</button>
+	<button onclick = "readInt()">Start</button>
+	<form action="#" name="F1">
+	Wait time <input type="range" name="waittime" value="500" max="1000" step="50"> [ms]
+	</form>
+	<div id="webcam"><noscript><img src="camera/0" /></noscript></div>
+</body>
