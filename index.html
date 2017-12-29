@@ -66,14 +66,13 @@ function led3_toggle()
 		alert("clicked go2");
 		led3.write(1);
 }
-
+var k1 = 100,k2 = 100;
 function readInt()
 {
 	var element = document.getElementById("intBar");
 	var element1 = document.getElementById("intBar1");
 	var element2 = document.getElementById("myBar");
-	var k;
-		k = RPCRequest.read_float();
+		/*k = RPCRequest.read_float();
 		if ((k > 100) && (k < 200))
 		{
 			element.innerHTML = k + '%';
@@ -83,12 +82,21 @@ function readInt()
 			element1.innerHTML = k + '%';
 		}
 		element2.innerHTML = k + '%';
+		*/
+		//k1 -= Math.random() * k1/4;
+		//k2 -= Math.random() * k2/4;
+		
+		element1.style.width = k1 + '%';
+		element1.innerHTML = k1 + '%';
+		element.style.width = k2 + '%';
+		element.innerHTML = k2 + '%';
 		setTimeout(readInt, 1000);
 }
 readInt();
 	</script>
 </head>
-<body onload="createImageLayer();">
+
+<body onload="readInt();">
 	<div id = "myProgress">
 		<div id = "intBar">50%</div>
 	</div>
@@ -97,7 +105,7 @@ readInt();
 		<div id = "intBar1">70%</div>
 	</div>
 	<h3>Player 2</h3>
-	<button onclick = "move()">Click me</button>
+	
 	<button onclick = "led1_toggle()">led1</button>
 	<button onclick = "led2_toggle()">led2</button>
 	<button onclick = "led3_toggle()">led3</button>
